@@ -1,47 +1,74 @@
-# Multivariate Polynomial Interpreter
+# Command Line Riemannian Geometry Interpreter
 
-This code provides an environment to manipulate and differentiate multivariate polynomials.
+This code provides an environment to perform calculations relevant to Riemannian Geometry.
 
-
-## Supported Operations
-
-As of 6/28/2024, supported operations are:
-* '+' : addition
-* '-' : subtraction
-* '*' : multiplication
-* '/' : division
-* '&' : differentiation
+## Supported Operations 
+|Symbol  |Function                      |
+|:-----  |:-------------------------    |
+| +      | addition                     |
+| -      | subtraction                  |
+| *      | multiplication               |
+| /      | division                     |
+| ^      | exponentiation               |
+| &      | functional differentiation   |
+| $      | partial differentiation      |
+| log    | natural logarithm            |
+| =      | assignment                   |
+| show   | output to console            |
+| diag   | create a diagonal tensor     |
 
 <!-- USAGE EXAMPLES -->
 ## Usage
-* Commands are typed in the terminal beside the 'calc>' prompt and will execute when you press 'enter.'
-The output prints to a new line.
+* Variables are assigned via the '=' operator. The function immediately to the right of an '=' operator will be assigned to the variable immedately to the left of the operator. A variable's assignment is simplified upon construction.
 ```
-calc> (1+x)*(1-x)
-1 - x^2
+> y=x*x
 ```
-* If the output is a fraction, the terminal will print the numerator, a new line of dashes, then a new line with the denominator.
+* The assignment of the variable (in parentheses) immediately to the right of a 'show' operator will be shown. The assignment will be printed to the following line.
 ```
-calc> x/y
-x
--
-y
+> y=x*x
+> show(y)
+(x)^(2)
 ```
-* A functional derivitive is performed on the polynomial immediately to the right of an '&' operator.
-  In the output, '(&x)' represents the variation of function x.
+*  Unassigned variables will be treated as general functions. Assigned variables will be automatically substituted in later operations.
 ```
-calc> &(x/y)
-(&x)y - (&y)x
--------------
-     y^2
+> y=x*x
+> z=y*y
+> show(z)
+(x)^(4)
 ```
-
-## A Word
-The ultimate goal of this project is to construct a symbolic riemannian geometry engine capable of computing the fundamental tensors and Christoffel symbols associated with a given metric. If you
-have anything you would like to contribute, feel free to message me on instagram (@wheesman), linkdin (www.linkedin.com/in/luis-cuevas-73634a1b1), or on here (if github has a message feature.)
+* Multiple statements on the same line are separeted by a semi-colon. Multi-statement lines will be executed from left to right.
+```
+> y=x*x; z=y*y
+> show(z)
+(x)^(4)
+```
+* A functional derivitive is performed on the expression immediately to the right of an '&' operator. In the output, '&[]' represents the variation of function '[]'.
+```
+> y=&(x*x)
+> show(y)
+> (x)*(&x)*(2)
+```
+* A partial derivitive is performed on the expression (in parentheses) immediately to the right of a '$_[]' operator with respect to variable/function '[]'.
+```
+> y=$_x(x*x)
+> show(y)
+(x)*(2)
+```
+* A logarithm of natural base is perormed on the expression (in parentheses) immediately to the right of the 'log' operator.
+```
+> y=$_x(log(x))
+> show(y)
+(x)^(-1)
+```
+* A diagonal tensor is constructed via a 'diag([])^{}' command, and can be assigned to a variable via '='. 'diag([])^{}' constructs a diagonal tensor with {} indices that range through [] variables. By default, this tensor is the metric tensor for {} dimensional Euclidean space (all ones). Non-diagonal elements DO NOT EXIST in a diagonal tensor, since they are always zero by construction.
+```
+> T=diag(x,y)^2
+> show(T[x,x])
+1
+```
 
 
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
 
-* Big shoutout to Ruslan Spivak for the tutorial on building interpreters. A lot of this code comes from their blog post, https://ruslanspivak.com/lsbasi-part1/.
+* Big shoutout to Ruslan Spivak for the tutorial on building interpreters. Their blog post at https://ruslanspivak.com/lsbasi-part1/ is super informative.
