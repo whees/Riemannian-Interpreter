@@ -24,7 +24,7 @@ This code provides an environment to perform calculations relevant to Riemannian
 > y=x*x
 >
 ```
-* The assignment of the variable (in parentheses) immediately to the right of a 'show' operator will be shown. The assignment will be printed to the following line.
+* The assignment of a variable (in parentheses) immediately to the right of a 'show' operator will be shown. The assignment will be printed to the following line.
 ```
 > y=x*x
 > show(y)
