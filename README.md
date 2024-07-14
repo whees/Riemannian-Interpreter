@@ -70,7 +70,7 @@ This code provides an environment to perform calculations relevant to Riemannian
 > g=dime(x,y)
 >
 ```
-* By default, a diagonal tensor is the metric tensor for N-dimensional Euclidean space, where N denotes the length of the passed list of variables. 
+* By default, a diagonal metric is the metric tensor for N-dimensional Euclidean space, where N denotes the length of the passed list of variables. 
 * Tensor elements can be referenced via the reference operator '[□]', which retrieves element '□'.
 * Tensor elements can be assigned a value via the '=' operator.
 * NOTE: Elements are referenced by a single instance of their label to avoid redundancy. For example, g[x] denotes the 'xx' component of g.
