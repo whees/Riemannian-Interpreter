@@ -1,0 +1,30 @@
+# -*- coding: utf-8 -*-
+log = 'log'
+PART = 'PART'
+VAR = 'VAR'
+DIF = 'DIF'
+INT = 'INT'
+ADD = 'ADD'
+SUB = 'SUB'
+MUL = 'MUL'
+DIV = 'DIV'
+REF = 'REF'
+ID = 'ID'
+ASSIGN = 'ASSIGN'
+SEMI = ';'
+EOF = 'EOF'
+LBRACE = '['
+RBRACE = ']'
+LBRACK = '{'
+RBRACK = '}'
+LPAREN = '('
+RPAREN = ')'
+UNDERSCORE = '_'
+COMMA = ','
+UPCAR = '^'
+show = 'show'
+diag = 'diag'
+
+
+
+
