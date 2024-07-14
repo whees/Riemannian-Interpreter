@@ -14,6 +14,7 @@ This code provides an environment to perform calculations relevant to Riemannian
 | $      | partial differentiation      |
 | log    | natural logarithm            |
 | =      | assignment                   |
+| []     | reference                    |
 | show   | output to console            |
 | dime   | create a diagonal metric     |
 
