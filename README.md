@@ -58,7 +58,7 @@ This code provides an environment to perform calculations relevant to Riemannian
 > show(y)
 (x)*(2)
 ```
-* A logarithm of natural base is perormed on the expression (in parentheses) immediately to the right of the 'log' operator.
+* A logarithm of natural base is performed on the expression (in parentheses) immediately to the right of the 'log' operator.
 ```
 > y=$_x(log(x))
 > show(y)
