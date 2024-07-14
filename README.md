@@ -19,7 +19,7 @@ This code provides an environment to perform calculations relevant to Riemannian
 
 <!-- USAGE EXAMPLES -->
 ## Usage
-* Variables are assigned via the '=' operator. The function immediately to the right of an '=' operator will be assigned to the variable immedately to the left of the operator. A variable's assignment is simplified upon construction. A line is executed upon the press of 'enter'
+* Variables are assigned via the '=' operator. The function immediately to the right of an '=' operator will be assigned to the variable immedately to the left of the operator. A variable's assignment is simplified upon construction. A line is executed upon the press of 'enter'.
 ```
 > y=x*x
 >
