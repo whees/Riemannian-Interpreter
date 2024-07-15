@@ -15,7 +15,7 @@ class FunctionalDeriver(nv.NodeVisitor):
         self.tree = tree
     
     def visit_Num(self,node):
-        return nv.NUM(0)
+        return nc.NUM(0)
     
     def visit_Var(self,node):
         return nc.Var(node.token,node.order + 1,node.weight)
@@ -64,7 +64,7 @@ class PartialDeriver(nv.NodeVisitor):
         self.left = left
     
     def visit_Num(self,node):
-        return nv.NUM(0)
+        return nc.NUM(0)
         
     def visit_AsOp(self,node):
         if node.token.type == kw.ADD:
@@ -76,8 +76,8 @@ class PartialDeriver(nv.NodeVisitor):
             newnode = nc.AsOp(ADDTOKEN(),weight = node.weight)
             for i,arg in enumerate(node.args):
                 coeff = [node.args[j] for j in range(len(node.args)) if i!=j]
-                argcopy = arg.copy()
                 mulnode = nc.AsOp(node.token,arg.weight)
+                argcopy = arg.copy()
                 argcopy.weight -= 1
                 coeff += [argcopy]
                 coeff += [self.visit(arg)]
@@ -99,9 +99,9 @@ class PartialDeriver(nv.NodeVisitor):
         
     def visit_Id(self,node):
         if node == self.left:
-            return nv.NUM(1)
+            return nc.NUM(1)
                 
-        return nv.NUM(0)
+        return nc.NUM(0)
         
     def derive(self):
         return self.visit(self.right)

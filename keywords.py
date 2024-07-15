@@ -23,7 +23,7 @@ UNDERSCORE = '_'
 COMMA = ','
 UPCAR = '^'
 show = 'show'
-diag = 'diag'
+dime = 'dime'
 
 
 

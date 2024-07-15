@@ -6,7 +6,7 @@ Created on Sat Jul 13 15:31:39 2024
 """
 import nodeclasses as nc
 import keywords as kw
-from token_ import ADDTOKEN,MULTOKEN
+from token_ import ADDTOKEN,MULTOKEN,RESERVED_KEYWORDS
     
 class Parser(object):
     def __init__(self, lexer):
@@ -93,7 +93,6 @@ class Parser(object):
         self.eat(kw.REF)
         ids = self.ids()
         self.eat(kw.RBRACE)
-        
         return nc.Reference(token,tensorid,ids)
         
     def show_statement(self):
@@ -122,15 +121,27 @@ class Parser(object):
         self.eat(kw.INT)
         return nc.Num(token)
     
-    def ids(self):
-        ids = []
-        
-        while self.current_token.type in (kw.COMMA,kw.ID):
-            ids += [self.variable().token.value]
-            if self.current_token.type not in (kw.COMMA,kw.ID):
-                break
+    def dimeargs(self):
+        args = {}
+        args[(self.variable().token.value,)] = nc.NUM(1)
+        while self.current_token.type in (kw.COMMA,):
             self.eat(kw.COMMA)
-        return ids
+            if self.current_token.type not in (kw.ID,):
+                break
+            args[(self.variable().token.value,)] = nc.NUM(1)
+            
+        return args
+    
+    def ids(self):
+        key = (self.variable().token.value,)
+        while self.current_token.type in (kw.COMMA,):
+            self.eat(kw.COMMA)
+            if self.current_token.type not in (kw.ID,):
+                break
+            key += (self.variable().token.value,)
+            
+        return key
+    
         
     def factor(self):
         token = self.current_token
@@ -164,14 +175,19 @@ class Parser(object):
             self.eat(kw.RPAREN)
             node = nc.BinOp(left,token,right)
             return node
-        elif token.type == kw.diag:
-            self.eat(kw.diag)
+        elif token.type == kw.dime:
+            self.eat(kw.dime)
             self.eat(kw.LPAREN)
-            ids=self.ids()
+            args=self.dimeargs()
             self.eat(kw.RPAREN)
-            self.eat(kw.UPCAR)
-            order = self.order()
-            node = nc.DiagTensor(ids,order)
+            node = nc.DiMe(token,args)
+            return node
+        elif token.type==kw.LBRACK:
+            self.eat(kw.LBRACK)
+            arg=self.variable()
+            self.eat(kw.RBRACK)
+            arg=nc.DiMeRef(RESERVED_KEYWORDS[kw.dime],arg)
+            node=nc.DiMeRefToCh(token,arg)
             return node
             
     def term(self):

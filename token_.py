@@ -32,6 +32,7 @@ def MULTOKEN():
 def DIFTOKEN():
     return Token(kw.DIF,'&')
 
+
 RESERVED_KEYWORDS = {kw.show: Token(kw.show,kw.show),
                      kw.log: Token(kw.log,kw.log),
-                     kw.diag: Token(kw.diag,kw.diag)}
+                     kw.dime: Token(kw.dime,kw.dime)}

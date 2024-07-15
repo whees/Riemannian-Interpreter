@@ -5,11 +5,13 @@ Created on Sat Jul 13 16:39:41 2024
 @author: lcuev
 """
 import keywords as kw
-from lexer import Token
-
+from token_ import Token,MULTOKEN
 
 def NUM(n):
     return Num(Token(kw.INT,n))
+
+def ID(char):
+    return Num(Token(kw.ID,char))
 
 class AST(object):
     pass
@@ -20,26 +22,7 @@ class NoOp(AST):
 class Compound(AST):
     def __init__(self):
         self.children = []
-        
-class DiagTensor:
-    def __init__(self, ids, order):
-        self.args = self.argsfromnames(ids,order)
-        
-    def __getitem__(self, id):
-        return self.args[id]
     
-    def __setitem__(self,id,newitem):
-        self.args[id]=newitem
-        
-    def argsfromnames(self,ids,order):
-        keys = []
-        
-        for id in ids:
-            key = (id,)*order.token.value
-            keys += [key]
-
-        return dict.fromkeys(keys,NUM(1))
-        
 class Num(AST):
     def __init__(self,token,weight = 1):
         self.token = token
@@ -92,6 +75,17 @@ class AsOp(AST):
                 return False
         return True
     
+    def __str__(self):
+        string = ''
+        
+        for arg in self.args:
+            string += f'({arg.token},{arg.weight})' + ','
+            
+        return string
+    
+    def __repr__(self):
+        return self.__str__()
+    
     def copy(self):
         copy = AsOp(self.token,self.weight)
         copy.args += self.args
@@ -137,4 +131,51 @@ class Show(AST):
     def __init__(self,token,args):
         self.token = self.op = token
         self.args = args
+        
+class DiMeRef(AST):
+    def __init__(self,token,arg):
+        self.token=token
+        self.arg=arg
+        
+class DiMeRefToCh(AST):
+    def __init__(self,token,arg):
+        self.token=token
+        self.arg=arg
+        
+class DiCh:
+    def __init__(self,token):
+        self.token = token
+        self.args = {}
+    
+    def __getitem__(self, id):
+        return self.args[id]
+    
+    def __setitem__(self,id,newitem):
+        self.args[id]=newitem
+        
+        
+class DiMe:
+    def __init__(self, token, args):
+        self.token = token
+        self.args = args
+
+    def inverse(self):
+        invargs={}
+        
+        for key,value in self.args.items():
+            valcopy=value.copy()
+            valcopy.weight=-1
+            mulop = AsOp(MULTOKEN())
+            mulop.args += [valcopy]
+            invargs[key] = mulop
+            
+        return DiMe(self.token, invargs)
+        
+    def __getitem__(self, id):
+        return self.args[id]
+    
+    def __setitem__(self,id,newitem):
+        self.args[id]=newitem
+        
+
         

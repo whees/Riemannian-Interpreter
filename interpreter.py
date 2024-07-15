@@ -5,6 +5,7 @@ import nodeclasses as nc
 from token_ import MULTOKEN,ADDTOKEN
 from parser_ import Parser
 from lexer import Lexer
+import riemann as ri
 
 
 WEIGHT_KEYS = {kw.ADD: '*', 
@@ -16,7 +17,33 @@ class Interpreter(nv.NodeVisitor):
     def __init__(self):
         pass
     
-    def visit_DiagTensor(self,node):
+    def visit_DiMeRef(self,node):
+        var_name = node.arg.token.value
+        val = self.GLOBAL_SCOPE.get(var_name)
+        if val is not None:
+            return val
+        else:
+            NameError(f'no metric named {node.token.value} in global scope')
+    
+    
+    
+    def visit_DiMeRefToCh(self,node):
+        dime=self.visit(node.arg)
+        if dime.token.type == kw.dime:
+            node=nc.DiCh(node.token)
+            node.args=ri.getdichargs(dime)
+            for key in node.args.keys():
+                node.args[key] = self.visit(node.args[key])
+            
+            return node
+        else:
+            raise Exception(f'{node.arg.token.value} is not a tensor')
+            
+    def visit_DiCh(self,node):
+        return node
+        
+    
+    def visit_DiMe(self,node):
         return node
     
     def visit_UnOp(self,node):
