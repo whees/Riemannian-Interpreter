@@ -15,6 +15,7 @@ This code provides an environment to perform calculations relevant to Riemannian
 | log    | natural logarithm            |
 | =      | assignment                   |
 | []     | reference                    |
+| {}     | 3-index symbol (2nd kind)    |
 | show   | output to console            |
 | dime   | create a diagonal metric     |
 
@@ -68,7 +69,6 @@ This code provides an environment to perform calculations relevant to Riemannian
 * 'dime(□)' constructs a diagonal metric labeled by the list of variables '□'.
 ```
 > g=dime(x,y)
->
 ```
 * By default, a diagonal metric is the metric tensor for N-dimensional Euclidean space, where N denotes the length of the passed list of variables. 
 * Tensor elements can be referenced via the reference operator '[□]', which retrieves element '□'.
@@ -81,6 +81,16 @@ This code provides an environment to perform calculations relevant to Riemannian
 > g[x]=1+u
 > show(g[x])
 1+(u)
+```
+* A '{□}' command generates the 3-index Christoffel symbols of the second kind associated with the diagonal metric '□'.
+* The resultant symbols can be collectively assigned a name via '=', and referenced via '[]' in the same way as a diagonal metric, except each item is labeled by three variables rather than one.
+* NOTE: The first two indices provided will be interpreted as the symmetric indices of the symbol.
+* NOTE: The 3-index symbols of the second kind for a default diagonal metric are all zero, since a default diagonal metric represents Euclidean space.
+```
+> T=dime(x,y)
+> c={T}
+> show(c[x,x,x])
+0
 ```
 
 
